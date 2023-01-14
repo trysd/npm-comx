@@ -1,6 +1,6 @@
 {
   "name": "comx",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "npm command line module",
   "main": "dist/bin/index.js",
   "bin": {
