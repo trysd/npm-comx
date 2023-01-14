@@ -1,7 +1,5 @@
 export class Comx {
-
   constructor() {
-    console.log("this is comx");
+    console.log("this noscript");
   }
-
 }

@@ -1,8 +1,8 @@
-import pluginNodeResolve from "@rollup/plugin-node-resolve";
-import pluginCommonjs from "@rollup/plugin-commonjs";
+// import pluginNodeResolve from "@rollup/plugin-node-resolve";
+// import pluginCommonjs from "@rollup/plugin-commonjs";
 import pluginTypescript from "@rollup/plugin-typescript";
 import { babel as pluginBabel } from "@rollup/plugin-babel";
-import { terser as pluginTerser } from "rollup-plugin-terser";
+// import { terser as pluginTerser } from "rollup-plugin-terser";
 import dayjs from 'dayjs';
 
 import * as path from "path";
@@ -33,7 +33,19 @@ export default [
         sourcemap: "inline",
         banner: "#!/usr/bin/env node\n\n" + banner,
         exports: "default",
+        banner
       },
+      // {
+      //   file: "dist/bin/index.min.js",
+      //   format: "cjs",
+      //   sourcemap: "inline",
+      //   banner: "#!/usr/bin/env node\n\n" + banner,
+      //   exports: "default",
+      //   name: moduleName,
+      //   format: "iife",
+      //   plugins: [pluginTerser()],
+      //   banner,
+      // },
     ],
     external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.devDependencies || {})],
     plugins: [
@@ -43,79 +55,5 @@ export default [
         configFile: path.resolve(__dirname, ".babelrc.js"),
       }),
     ],
-  },
-  {
-    input: "src/index.ts",
-    output: [
-      {
-        name: moduleName,
-        file: pkg.browser,
-        format: "iife",
-        sourcemap: "inline",
-        banner,
-      },
-      {
-        name: moduleName,
-        file: pkg.browser.replace(".js", ".min.js"),
-        format: "iife",
-        banner,
-        plugins: [pluginTerser()],
-      },
-    ],
-    plugins: [
-      pluginTypescript(),
-      pluginCommonjs({
-        extensions: [".js", ".ts"],
-      }),
-      pluginBabel({
-        babelHelpers: "bundled",
-        configFile: path.resolve(__dirname, ".babelrc.js"),
-      }),
-      pluginNodeResolve({
-        browser: true,
-      }),
-    ],
-  },
-  // For NPM
-  {
-    input: `src/index.ts`,
-    output: [
-      {
-        file: pkg.module,
-        format: "es",
-        sourcemap: "inline",
-        banner,
-        exports: "named",
-      },
-    ],
-    external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.devDependencies || {})],
-    plugins: [
-      pluginTypescript(),
-      pluginBabel({
-        babelHelpers: "bundled",
-        configFile: path.resolve(__dirname, ".babelrc.js"),
-      }),
-    ],
-  },
-  // For NPM
-  {
-    input: "src/index.ts",
-    output: [
-      {
-        file: pkg.main,
-        format: "cjs",
-        sourcemap: "inline",
-        banner,
-        exports: "default",
-      },
-    ],
-    external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.devDependencies || {})],
-    plugins: [
-      pluginTypescript(),
-      pluginBabel({
-        babelHelpers: "bundled",
-        configFile: path.resolve(__dirname, ".babelrc.js"),
-      }),
-    ],
-  },
+  }
 ];
